@@ -11,29 +11,42 @@ const galleryMarkup = createGalleryMarkup(galleryItems);
 
 gallery.insertAdjacentHTML("beforeend", galleryMarkup);
 
+gallery.addEventListener("click", onClickPreventDefault);
+
 gallery.addEventListener("click", onGalleryClick);
 
 
 
-function onGalleryClick(event) {
-
+function onClickPreventDefault(event) {
   event.preventDefault();
+}
 
-  const modal = basicLightbox
-    .create(
-      `
+function onGalleryClick(event) {
+  const modal = basicLightbox.create(
+    `
     <img width="1400" height="900" src="${event.target.dataset.source}">
-`
-    )
-    .show();
+`,
+    {
+      onShow: (modal) => {
+        document.addEventListener("keydown", function onEscapePress(event) {
+          console.log(event);
 
-    document.addEventListener("keydown", (event) => {
-        console.log(event);
-      
-        if (event.code === "Escape") {
-          modal.close(() => document.removeEventListener("keydown"));
-        }
-      });
+          if (event.code === "Escape") {
+            modal.close();
+          }
+        });
+      },
+      onClose: (modal) => {
+        document.removeEventListener("keydown", function onEscapePress(event){
+          if(event.code === "Escape"){
+            modal.close();
+          }
+        });
+      },
+    }
+  );
+
+  modal.show();
 }
 
 function createGalleryMarkup(galleryItems) {
@@ -52,3 +65,4 @@ function createGalleryMarkup(galleryItems) {
     })
     .join("");
 }
+
