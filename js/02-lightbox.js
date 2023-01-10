@@ -12,6 +12,11 @@ gallery.insertAdjacentHTML("beforeend", galleryMarkup);
 gallery.addEventListener("click", onGalleryClick);
 
 function onGalleryClick(event) {
+
+  if (!event.target.classList.contains("gallery__image")) {
+    return;
+  }
+
   event.preventDefault();
 
   const modal = new SimpleLightbox(".gallery a", {
