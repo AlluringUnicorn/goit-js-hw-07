@@ -9,6 +9,11 @@ const galleryMarkup = createGalleryMarkup(galleryItems);
 
 gallery.insertAdjacentHTML("beforeend", galleryMarkup);
 
+  const modal = new SimpleLightbox(".gallery a", {
+    captionsData: "alt",
+    captionDelay: 250,
+  });
+
 gallery.addEventListener("click", onGalleryClick);
 
 function onGalleryClick(event) {
@@ -19,10 +24,7 @@ function onGalleryClick(event) {
 
   event.preventDefault();
 
-  const modal = new SimpleLightbox(".gallery a", {
-    captionsData: "alt",
-    captionDelay: 250,
-  });
+
 }
 
 function createGalleryMarkup(galleryItems) {

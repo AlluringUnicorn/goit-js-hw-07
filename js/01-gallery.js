@@ -11,15 +11,14 @@ const galleryMarkup = createGalleryMarkup(galleryItems);
 
 gallery.insertAdjacentHTML("beforeend", galleryMarkup);
 
-gallery.addEventListener("click", onClickPreventDefault);
+
 
 gallery.addEventListener("click", onGalleryClick);
 
-function onClickPreventDefault(event) {
-  event.preventDefault();
-}
+
 
 function onGalleryClick(event) {
+  event.preventDefault();
 
   if (!event.target.classList.contains("gallery__image")) {
     return;
@@ -31,26 +30,23 @@ function onGalleryClick(event) {
 `,
     {
       onShow: (modal) => {
-        document.addEventListener("keydown", function onEscapePress(event) {
-          console.log(event);
-
-          if (event.code === "Escape") {
-            modal.close();
-          }
-        });
+        document.addEventListener("keydown", onEscapePress);
       },
       onClose: (modal) => {
-        document.removeEventListener("keydown", function onEscapePress(event) {
-          if (event.code === "Escape") {
-            modal.close();
-          }
-        });
+        document.removeEventListener("keydown", onEscapePress);
       },
     }
   );
 
   modal.show();
 }
+
+
+function onEscapePress(event) {
+          if (event.code === "Escape") {
+            modal.close();
+          }
+        }
 
 function createGalleryMarkup(galleryItems) {
   return galleryItems
